@@ -1,0 +1,15 @@
+{
+  "projects": [
+    {
+      "src": "LearnlyApp Edtech Frontend/",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "LearnlyApp Edtech Backend/",
+      "use": "@vercel/node"
+    }
+  ]
+}
