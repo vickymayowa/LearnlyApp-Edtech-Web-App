@@ -27,6 +27,13 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/product", productRoutes);
 
+app.get("/", (req, res) => {
+  res.status(201).json({
+    message: "Welcome to my LearnlyApp Server",
+    status: true,
+  });
+});
+
 // Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
