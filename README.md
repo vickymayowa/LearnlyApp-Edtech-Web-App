@@ -17,7 +17,7 @@ This project is a full-stack e-commerce application built with Vue.js for the fr
 - RESTful API for product management (CRUD operations)
 - User authentication API
 - Route protection middleware
-- Database integration (MongoDB/MySQL/PostgreSQL)
+- Database integration (MongoDB)
 
 ### Database
 
@@ -28,35 +28,35 @@ This project is a full-stack e-commerce application built with Vue.js for the fr
 
 - Frontend: Vue.js, Vue CLI, Vue Router, Vuex
 - Backend: Node.js, Express.js
-- Database: MongoDB/MySQL/PostgreSQL
+- Database: MongoDB
 - Authentication: JWT (JSON Web Tokens)
-- ORM/ODM: Mongoose (for MongoDB) or Sequelize (for SQL databases)
-- CSS Framework: Bootstrap/Tailwind CSS/Custom CSS
+- ORM/ODM: Mongoose (for MongoDB)
+- CSS Framework: Tailwind CSS
 
 ## Prerequisites
 
 - Node.js (v14+ recommended)
-- npm or yarn
-- MongoDB/MySQL/PostgreSQL
+- npm
+- MongoDB
 
 ## Setup and Installation
 
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/ecommerce-app.git
-   cd ecommerce-app
+   git clone https://github.com/vickymayowa/LearnlyApp-Edtech-Web-App
+   cd LearnlyApp-Edtech-Web-App
    ```
 
 2. Install dependencies for both frontend and backend:
 
    ```
    # Install backend dependencies
-   cd backend
+   cd LearnlyApp Edtech Backend
    npm install
 
    # Install frontend dependencies
-   cd ../frontend
+   cd LearnlyApp Edtech Frontend
    npm install
    ```
 
@@ -66,6 +66,7 @@ This project is a full-stack e-commerce application built with Vue.js for the fr
    - Add the following variables:
      ```
      PORT=5000
+     NODE_ENV = your-node-env
      MONGODB_URI=your_mongodb_connection_string
      JWT_SECRET=your_jwt_secret
      ```
@@ -73,15 +74,15 @@ This project is a full-stack e-commerce application built with Vue.js for the fr
 4. Start the backend server:
 
    ```
-   cd backend
-   npm run start
+   cd LearnlyApp Edtech Backend
+   nodemon index
    ```
 
 5. Start the frontend development server:
 
    ```
-   cd frontend
-   npm run serve
+   cd LearnlyApp Edtech Frontend
+   npm run dev
    ```
 
 6. Open your browser and navigate to `http://localhost:8080`
