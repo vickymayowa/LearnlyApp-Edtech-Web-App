@@ -1,33 +1,38 @@
 <template>
   <div class="flex justify-center items-center min-h-screen bg-gray-300">
-    <div class="w-full max-w-md space-y-8 p-10 bg-white rounded-xl">
+    <div
+      class="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-10 bg-white rounded-xl shadow-md"
+    >
       <div class="text-center">
         <h2 class="mt-6 text-3xl font-bold text-gray-900">Mia E-commerce</h2>
         <p class="mt-2 text-sm text-gray-600">Sign in to your account</p>
       </div>
       <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
-        <div v-if="errors.form" class="text-red-600">{{ errors.form }}</div>
+        <div v-if="errors.form" class="text-red-600 text-center">{{ errors.form }}</div>
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email-address">Email address</label>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
             <input
-              id="email-address"
-              name="email"
-              type="email"
-              autocomplete="email"
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
               required
               :class="[
                 'appearance-none rounded-none relative block w-full px-3 py-2 border mt-2',
-                errors.email ? 'border-red-300' : 'border-gray-300',
+                errors.username ? 'border-red-300' : 'border-gray-300',
                 'placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
               ]"
-              placeholder="Email address"
-              v-model="email"
+              placeholder="Username"
+              v-model="username"
+              aria-describedby="username-error"
             />
-            <p v-if="errors.email" class="mt-2 text-sm text-red-600">{{ errors.email }}</p>
+            <p v-if="errors.username" id="username-error" class="mt-2 text-sm text-red-600">
+              {{ errors.username }}
+            </p>
           </div>
           <div class="py-5">
-            <label for="password">Password</label>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input
               id="password"
               name="password"
@@ -41,8 +46,11 @@
               ]"
               placeholder="Password"
               v-model="password"
+              aria-describedby="password-error"
             />
-            <p v-if="errors.password" class="mt-2 text-sm text-red-600">{{ errors.password }}</p>
+            <p v-if="errors.password" id="password-error" class="mt-2 text-sm text-red-600">
+              {{ errors.password }}
+            </p>
           </div>
         </div>
         <div>
@@ -51,11 +59,21 @@
             :disabled="isLoading"
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <span v-if="isLoading">
-              <span class="spinner"></span>
-              <span class="pl-3">Authenticating</span>
+            <span v-if="isLoading" class="flex items-center">
+              <svg
+                class="animate-spin h-5 w-5 mr-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M12 6a6 6 0 0 1 6 6c0 1.8-.7 3.4-1.9 4.6l1.4 1.4a8.962 8.962 0 0 0 2.3-6A8.96 8.96 0 0 0 12 4c-1.8 0-3.4.7-4.6 1.9l1.4 1.4A5.962 5.962 0 0 1 12 6zm-7 6a7 7 0 0 1 14 0h-2a5 5 0 0 0-10 0H5z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span>Authenticating</span>
             </span>
-            <span v-else class="pl-3">Login</span>
+            <span v-else>Login</span>
           </button>
         </div>
       </form>
@@ -65,57 +83,78 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 export default {
   setup() {
-    const email = ref('')
+    const username = ref('')
     const password = ref('')
-    const errors = reactive({ form: null, email: null, password: null })
+    const errors = reactive({ form: null, username: null, password: null })
     const isLoading = ref(false)
-
-    const store = useStore()
     const router = useRouter()
 
     const validateForm = () => {
       errors.form = null
-      errors.email = null
+      errors.username = null
       errors.password = null
 
-      if (!email.value) errors.email = 'Email is required'
-      else if (!/\S+@\S+\.\S+/.test(email.value)) errors.email = 'Invalid email address'
+      if (!username.value) errors.username = 'Username is required'
+      else if (username.value.length < 3) errors.username = 'Username must be at least 3 characters'
 
       if (!password.value) errors.password = 'Password is required'
-      else if (password.value.length < 4) errors.password = 'Password must be at least 8 characters'
+      else if (password.value.length < 3) errors.password = 'Password must be at least 3 characters'
 
-      return !errors.email && !errors.password
+      return !errors.username && !errors.password
     }
 
     const handleSubmit = async () => {
       if (validateForm()) {
         isLoading.value = true
+        const userData = {
+          username: username.value,
+          password: password.value
+        }
         try {
-          await store.dispatch('login', { email: email.value, password: password.value })
-          email.value = ''
-          password.value = ''
+          const response = await axios.post('/api/users/auth', userData)
+          localStorage.setItem('token', response.data.token)
+          const userInfo = response.data
+          localStorage.setItem('userInfo', JSON.stringify(userInfo))
           router.push('/')
         } catch (error) {
-          errors.form = 'Login failed. Please try again.'
-          console.error('Login error:', error.message)
+          if (error.response) {
+            errors.form = error.response.data.message || 'Login failed'
+          } else {
+            errors.form = 'Something went wrong. Please try again.'
+          }
+          console.error('Login error:', error)
         } finally {
           isLoading.value = false
         }
       }
     }
 
-    return {
-      email,
-      password,
-      errors,
-      isLoading,
-      handleSubmit
-    }
+    return { username, password, errors, isLoading, handleSubmit }
   }
 }
 </script>
+
+<style scoped>
+.spinner {
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
