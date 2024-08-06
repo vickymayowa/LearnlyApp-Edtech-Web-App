@@ -15,16 +15,25 @@
             class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
             >Home</RouterLink
           >
-          <RouterLink
-            to="/login"
-            class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-            >Login</RouterLink
-          >
-          <RouterLink
-            to="/products"
-            class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-            >Products</RouterLink
-          >
+          <template v-if="!userStore.isAuthenticated">
+            <RouterLink
+              to="/login"
+              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
+              >Login</RouterLink
+            >
+          </template>
+          <template v-else>
+            <RouterLink
+              to="/products"
+              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
+              >Products</RouterLink
+            >
+            <RouterLink
+              to="/add-product"
+              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
+              >Add Product</RouterLink
+            >
+          </template>
         </div>
       </div>
       <div v-if="isOpen" class="md:hidden mt-4">
@@ -35,24 +44,22 @@
             @click="toggleMenu"
             >Home</RouterLink
           >
-          <RouterLink
-            to="/about"
-            class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-            @click="toggleMenu"
-            >About</RouterLink
-          >
-          <RouterLink
-            to="/login"
-            class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-            @click="toggleMenu"
-            >Login</RouterLink
-          >
-          <RouterLink
-            to="/products"
-            class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-            @click="toggleMenu"
-            >Products</RouterLink
-          >
+          <template v-if="!userStore.isAuthenticated">
+            <RouterLink
+              to="/login"
+              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
+              @click="toggleMenu"
+              >Login</RouterLink
+            >
+          </template>
+          <template v-else>
+            <RouterLink
+              to="/products"
+              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
+              @click="toggleMenu"
+              >Products</RouterLink
+            >
+          </template>
         </div>
       </div>
     </div>
@@ -63,8 +70,15 @@
 <script setup>
 import { ref } from 'vue'
 import { MenuIcon, XIcon } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { useUserStore } from './stores/user'
+
+const userStore = useUserStore()
+const router = useRouter()
 
 const isOpen = ref(false)
+
+userStore.checkAuth()
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value

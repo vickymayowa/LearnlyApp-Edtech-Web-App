@@ -17,7 +17,7 @@ const store = createStore({
   actions: {
     async login({ commit }, credentials) {
       try {
-        const response = await axios.post('/api/login', credentials)
+        const response = await axios.post('/api/user/auth', credentials)
         commit('SET_USER', response.data.user)
         commit('SET_TOKEN', response.data.token)
       } catch (error) {

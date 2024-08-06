@@ -4,10 +4,10 @@ const asyncHandler = require("express-async-handler");
 // Create a new product with data
 exports.createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
-    name: "Sample Product",
-    description: "This is a sample product description",
-    price: 9.99,
-    imageURL: "https://images.app.goo.gl/9ZKkxs9WT14z2Nk27",
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    imageURL: req.body.imageURL,
     createdBy: req.user ? req.user._id : null,
   });
 
