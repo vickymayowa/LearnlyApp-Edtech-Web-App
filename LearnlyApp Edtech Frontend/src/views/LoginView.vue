@@ -72,22 +72,24 @@ export default {
   setup() {
     const email = ref('')
     const password = ref('')
-    const errors = reactive({})
+    const errors = reactive({ form: null, email: null, password: null })
     const isLoading = ref(false)
 
     const store = useStore()
     const router = useRouter()
 
     const validateForm = () => {
-      errors.value = {}
-      if (!email.value) errors.value.email = 'Email is required'
-      else if (!/\S+@\S+\.\S+/.test(email.value)) errors.value.email = 'Invalid email address'
+      errors.form = null
+      errors.email = null
+      errors.password = null
 
-      if (!password.value) errors.value.password = 'Password is required'
-      else if (password.value.length < 8)
-        errors.value.password = 'Password must be at least 8 characters'
+      if (!email.value) errors.email = 'Email is required'
+      else if (!/\S+@\S+\.\S+/.test(email.value)) errors.email = 'Invalid email address'
 
-      return Object.keys(errors.value).length === 0
+      if (!password.value) errors.password = 'Password is required'
+      else if (password.value.length < 4) errors.password = 'Password must be at least 8 characters'
+
+      return !errors.email && !errors.password
     }
 
     const handleSubmit = async () => {
@@ -99,8 +101,8 @@ export default {
           password.value = ''
           router.push('/')
         } catch (error) {
-          errors.value.form = 'Login failed. Please try again.'
-          alert('Login failed. Please try again.')
+          errors.form = 'Login failed. Please try again.'
+          console.error('Login error:', error.message)
         } finally {
           isLoading.value = false
         }

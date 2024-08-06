@@ -27,7 +27,7 @@ export default new Vuex.Store({
       dispatch('fetchProducts')
     },
     async login({ commit }, credentials) {
-      const response = await axios.post('/api/login', credentials)
+      const response = await axios.post('/api/users/auth', credentials)
       commit('SET_USER', response.data)
     }
   }

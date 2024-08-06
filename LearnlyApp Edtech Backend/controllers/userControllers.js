@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const generateToken = require("../utils/generateToken.js");
+const { generateToken } = require("../utils/generateToken.js");
 const User = require("../models/userModel.js");
 
 // @desc    Auth user & get token
@@ -26,9 +26,9 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("Invalid username or password");
   }
-  generateToken(res, user._id);
   res.json({
     success: true,
+    token: generateToken(user._id),
     message: "Login successfull",
     data: {
       _id: user._id,
