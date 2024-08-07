@@ -1,4 +1,3 @@
-// productsStore.js
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
@@ -20,6 +19,17 @@ export const useProductsStore = defineStore('products', {
     error: null
   }),
   actions: {
+    async fetchProducts() {
+      try {
+        this.loading = true
+        const response = await api.get('/product/products') // Adjust this endpoint as needed
+        this.products = response.data
+        this.loading = false
+      } catch (error) {
+        this.error = error
+        this.loading = false
+      }
+    },
     async fetchProduct(id) {
       try {
         this.loading = true
@@ -38,7 +48,7 @@ export const useProductsStore = defineStore('products', {
         console.log(response)
         this.products.push(response.data)
         this.loading = false
-        alert('Product Added SuccessFully')
+        alert('Product Added Successfully')
       } catch (error) {
         this.error = error
         this.loading = false
@@ -51,7 +61,7 @@ export const useProductsStore = defineStore('products', {
         const index = this.products.findIndex((product) => product.id === id)
         this.products.splice(index, 1, response.data)
         this.loading = false
-        alert('Product Updated SuccessFully')
+        alert('Product Updated Successfully')
       } catch (error) {
         this.error = error
         this.loading = false

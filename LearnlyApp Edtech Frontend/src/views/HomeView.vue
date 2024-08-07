@@ -70,8 +70,8 @@
     </div>
   </div>
 </template>
-
 <script>
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '../stores/products'
 
@@ -92,17 +92,17 @@ export default {
       }
     }
 
+    onMounted(() => {
+      fetchProducts()
+    })
+
     return {
       products,
       loading,
       error,
       handleImageError,
-      confirmDelete,
-      fetchProducts
+      confirmDelete
     }
-  },
-  mounted() {
-    this.fetchProducts()
   }
 }
 </script>
