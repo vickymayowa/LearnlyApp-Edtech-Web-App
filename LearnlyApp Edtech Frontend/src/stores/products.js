@@ -55,7 +55,7 @@ export const useProductsStore = defineStore('products', {
       this.error = null
       try {
         const response = await api.get('/product/search', {
-          params: { q: query }
+          query: { name: query }
         })
         this.products = response.data
       } catch (error) {
