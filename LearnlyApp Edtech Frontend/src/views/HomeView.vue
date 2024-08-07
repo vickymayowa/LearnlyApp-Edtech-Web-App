@@ -1,11 +1,26 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-center mb-8">Welcome to Our Store</h1>
+
+    <!-- Search Input -->
+    <div class="mb-8">
+      <input
+        v-model="searchQuery"
+        @input="performSearch"
+        type="text"
+        placeholder="Search products..."
+        class="w-full p-2 border rounded-lg"
+      />
+    </div>
+
+    <!-- Loading and Error States -->
     <div v-if="loading" class="text-center text-xl">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
       <p class="mt-4">Loading products...</p>
     </div>
     <div v-else-if="error" class="text-center text-xl text-red-600">{{ error }}</div>
+
+    <!-- Products Grid -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div
         v-for="product in products"
@@ -70,8 +85,9 @@
     </div>
   </div>
 </template>
+
 <script>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '../stores/products'
 
@@ -80,10 +96,15 @@ export default {
   setup() {
     const productsStore = useProductsStore()
     const { products, loading, error } = storeToRefs(productsStore)
-    const { fetchProducts, deleteProduct } = productsStore
+    const { fetchProducts, deleteProduct, searchProducts } = productsStore
+    const searchQuery = ref('')
 
     const handleImageError = (e) => {
       e.target.src = '/placeholder-image.jpg'
+    }
+
+    const performSearch = () => {
+      searchProducts(searchQuery.value)
     }
 
     const confirmDelete = (product) => {
@@ -101,6 +122,8 @@ export default {
       loading,
       error,
       handleImageError,
+      searchQuery,
+      performSearch,
       confirmDelete
     }
   }

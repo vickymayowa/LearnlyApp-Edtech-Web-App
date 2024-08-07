@@ -70,3 +70,17 @@ exports.deleteProductById = asyncHandler(async (req, res) => {
     .status(200)
     .send({ message: "Product deleted successfully", status: true });
 });
+
+// Search for a product
+exports.searchProducts = asyncHandler(async (req, res) => {
+  const { name } = req.query;
+  if (!name) return res.status(400).json({ message: "Name is required" });
+  try {
+    const products = await Product.find({
+      name: { $regex: name, $options: "i" },
+    }).exec();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});

@@ -5,6 +5,7 @@ const {
   getAllProducts,
   getProductById,
   deleteProductById,
+  searchProducts,
   updateProductById,
 } = require("../controllers/productControllers.js");
 
@@ -17,5 +18,6 @@ router
   .get(protect, getProductById)
   .put(protect, updateProductById)
   .delete(protect, deleteProductById);
+router.get("/search", protect, searchProducts);
 
 module.exports = router;
