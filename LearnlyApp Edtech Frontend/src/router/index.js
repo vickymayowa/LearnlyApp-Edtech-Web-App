@@ -8,10 +8,20 @@ import { useUserStore } from '../stores/user.js'
 const routes = [
   {
     path: '/',
-    component: HomeView
+    name: 'home',
+    component: HomeView,
+    beforeEnter: async (to, from, next) => {
+      const userStore = useUserStore()
+      userStore.checkAuth()
+      if (!userStore.isAuthenticated) {
+        return next({ name: 'login' }) // redirect to login page
+      }
+      next()
+    }
   },
   {
     path: '/login',
+    name: 'login',
     component: LoginView
   },
   {
