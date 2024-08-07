@@ -24,11 +24,6 @@
           </template>
           <template v-else>
             <RouterLink
-              to="/products"
-              class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-              >Products</RouterLink
-            >
-            <RouterLink
               to="/add-product"
               class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
               >Add Product</RouterLink
@@ -54,10 +49,9 @@
           </template>
           <template v-else>
             <RouterLink
-              to="/products"
+              to="/add-product"
               class="text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out"
-              @click="toggleMenu"
-              >Products</RouterLink
+              >Add Product</RouterLink
             >
           </template>
         </div>

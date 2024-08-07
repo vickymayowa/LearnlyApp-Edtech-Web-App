@@ -46,6 +46,7 @@ export const useProductsStore = defineStore('products', {
       try {
         this.loading = true
         const response = await api.post('/product/createProduct', newProduct)
+        console.log(response)
         this.products.push(response.data)
         this.loading = false
         alert('Product Added SuccessFully')
