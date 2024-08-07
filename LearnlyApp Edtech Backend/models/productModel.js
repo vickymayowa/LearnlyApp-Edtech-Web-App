@@ -21,14 +21,21 @@ const productSchema = new mongoose.Schema({
     trim: true,
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    username: {
+      type: String,
+      trim: true,
+    },
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
+
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;

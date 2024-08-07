@@ -19,20 +19,15 @@
             class="w-full h-48 object-cover"
             @error="handleImageError"
           />
-          <div
-            class="absolute top-0 right-0 bg-indigo-600 text-white px-2 py-1 m-2 rounded-full text-sm"
-          >
-            {{ product.inStock }} in stock
-          </div>
         </div>
         <div class="p-4">
           <div class="flex justify-between items-start mb-2">
             <h2 class="text-xl font-semibold">{{ product.name }}</h2>
-            <p class="text-gray-600 text-sm">By {{ product.creator }}</p>
+            <p class="text-gray-600 text-sm">Created by {{ product.createdBy.username }}</p>
           </div>
           <p class="text-gray-600 mb-4 h-20 overflow-hidden">{{ product.description }}</p>
           <div class="flex justify-between items-center mb-4">
-            <p class="text-2xl font-bold text-indigo-600">${{ product.price.toFixed(2) }}</p>
+            <p class="text-2xl font-bold text-indigo-600">#{{ product.price.toFixed(2) }}</p>
           </div>
           <div class="flex flex-col sm:flex-row gap-2 mt-4">
             <button

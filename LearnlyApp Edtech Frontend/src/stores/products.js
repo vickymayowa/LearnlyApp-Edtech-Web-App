@@ -24,6 +24,7 @@ export const useProductsStore = defineStore('products', {
       try {
         this.loading = true
         const response = await api.get('/product/products')
+        console.log(response)
         this.products = response.data
         this.loading = false
       } catch (error) {
@@ -35,6 +36,7 @@ export const useProductsStore = defineStore('products', {
       try {
         this.loading = true
         const response = await api.get(`/product/products/${id}`)
+
         this.product = response.data
         this.loading = false
       } catch (error) {
