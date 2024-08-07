@@ -1,26 +1,35 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-center mb-8">Welcome to Our Store</h1>
-
-    <!-- Search Input -->
-    <div class="mb-8">
+    <div class="mb-8 flex items-center">
+      <span class="mr-4 text-lg font-bold">Search</span>
       <input
         v-model="searchQuery"
         @input="performSearch"
         type="text"
         placeholder="Search products..."
-        class="w-full p-2 border rounded-lg"
+        class="w-full p-4 pl-10 text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
       />
+      <svg
+        class="w-6 h-6 absolute ml-20 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+      </svg>
     </div>
-
-    <!-- Loading and Error States -->
     <div v-if="loading" class="text-center text-xl">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
       <p class="mt-4">Loading products...</p>
     </div>
     <div v-else-if="error" class="text-center text-xl text-red-600">{{ error }}</div>
-
-    <!-- Products Grid -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div
         v-for="product in products"
