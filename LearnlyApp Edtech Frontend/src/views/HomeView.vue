@@ -72,23 +72,33 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia'
 import { useProductsStore } from '../stores/products'
-import { mapState, mapActions } from 'pinia'
 
 export default {
   name: 'HomeView',
-  computed: {
-    ...mapState(useProductsStore, ['products', 'loading', 'error'])
-  },
-  methods: {
-    ...mapActions(useProductsStore, ['fetchProducts', 'editProduct', 'deleteProduct']),
-    handleImageError(e) {
+  setup() {
+    const productsStore = useProductsStore()
+    const { products, loading, error } = storeToRefs(productsStore)
+    const { fetchProducts, deleteProduct } = productsStore
+
+    const handleImageError = (e) => {
       e.target.src = '/placeholder-image.jpg'
-    },
-    confirmDelete(product) {
+    }
+
+    const confirmDelete = (product) => {
       if (confirm(`Are you sure you want to delete ${product.name}?`)) {
-        this.deleteProduct(product._id)
+        deleteProduct(product._id)
       }
+    }
+
+    return {
+      products,
+      loading,
+      error,
+      handleImageError,
+      confirmDelete,
+      fetchProducts
     }
   },
   mounted() {

@@ -1,3 +1,4 @@
+
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -11,9 +12,9 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5173,
     proxy: {
       '/api': {
+        // target: 'https://learnly-app-edtech-backend.vercel.app/',
         target: 'http://localhost:5000',
         changeOrigin: true
       }

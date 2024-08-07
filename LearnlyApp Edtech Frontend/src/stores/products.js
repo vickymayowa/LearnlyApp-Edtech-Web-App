@@ -20,23 +20,10 @@ export const useProductsStore = defineStore('products', {
     error: null
   }),
   actions: {
-    async fetchProducts() {
-      try {
-        this.loading = true
-        const response = await api.get('/product/products')
-        console.log(response)
-        this.products = response.data
-        this.loading = false
-      } catch (error) {
-        this.error = error
-        this.loading = false
-      }
-    },
     async fetchProduct(id) {
       try {
         this.loading = true
         const response = await api.get(`/product/products/${id}`)
-
         this.product = response.data
         this.loading = false
       } catch (error) {
