@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import AddProductView from '../views/AddProduct.vue'
+import EditProductView from '../views/EditProductView.vue'
 import NotFound from '../views/NotFound.vue'
 import { useUserStore } from '../stores/user.js'
 
@@ -27,6 +28,11 @@ const routes = [
   {
     path: '/add-product',
     component: AddProductView
+  },
+  {
+    path: '/edit-product/:id',
+    name: 'edit-product',
+    component: EditProductView
   },
   {
     path: '/:pathMatch(.*)*',

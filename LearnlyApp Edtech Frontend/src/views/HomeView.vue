@@ -32,7 +32,7 @@
           <div class="flex flex-col sm:flex-row gap-2 mt-4">
             <button
               class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
-              @click="editProduct(product)"
+              @click="$router.push({ name: 'edit-product', params: { id: product._id } })"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -64,6 +64,7 @@ export const useProductsStore = defineStore('products', {
         const index = this.products.findIndex((product) => product.id === id)
         this.products.splice(index, 1, response.data)
         this.loading = false
+        alert('Product Updated SuccessFully')
       } catch (error) {
         this.error = error
         this.loading = false
