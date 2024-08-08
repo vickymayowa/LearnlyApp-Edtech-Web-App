@@ -100,9 +100,10 @@ export const useProductsStore = defineStore('products', {
       this.loading = true
       this.error = null
       try {
-        await api.delete(`/products/${id}`)
+        await api.delete(`/product/products/${id}`)
         this.products = this.products.filter((product) => product.id !== id)
         alert('Product deleted successfully!')
+        this.products.push(response.data)
       } catch (error) {
         this.error = `Failed to delete product with ID ${id}. Please try again later.`
         console.error(error)
