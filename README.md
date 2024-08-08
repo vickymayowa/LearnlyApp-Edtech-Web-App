@@ -1,5 +1,3 @@
-Here is the updated information with the login details:
-
 # E-commerce Application
 This project is a full-stack e-commerce application built with Vue.js for the frontend and Node.js (Express) for the backend. It features a product listing page, user authentication, and product management functionalities.
 
